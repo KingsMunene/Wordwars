@@ -24,6 +24,8 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,10 +36,15 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.wordswar.R
 
 @Composable
-fun GameScreen() {
+fun GameScreen(gameViewModel: GameViewModel = viewModel()
+) {
+
+    //Get the uiState from the gameViewModel
+    val gameUIState by gameViewModel.uiState.collectAsState()
 
     val  mediumPadding = dimensionResource(R.dimen.medium_padding)
 
@@ -51,7 +58,9 @@ fun GameScreen() {
         Text(stringResource(R.string.game_title),
             style = MaterialTheme.typography.titleLarge)
 
-        GameLayout()
+        GameLayout(
+            scrambledWord = gameUIState.currentScrambledWord
+        )
 
         Column(
             modifier = Modifier.padding(mediumPadding),
@@ -78,13 +87,16 @@ fun GameScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GameLayout() {
+fun GameLayout(
+    scrambledWord: String
+) {
 
     val  mediumPadding = dimensionResource(R.dimen.medium_padding)
     Card() {
         Column(modifier = Modifier
             .padding(mediumPadding),
             horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(mediumPadding)
         ) {
             Text(
                 modifier = Modifier
@@ -97,11 +109,12 @@ fun GameLayout() {
                 style = MaterialTheme.typography.titleMedium
             )
 
-            Text(text = "nlmeo",
-            style = MaterialTheme.typography.titleLarge)
-            Text(stringResource(R.string.game_instructions),
+            Text(
+                text = scrambledWord,
+                style = MaterialTheme.typography.titleLarge)
+                Text(stringResource(R.string.game_instructions),
                 style = MaterialTheme.typography.titleSmall)
-            OutlinedTextField(
+                OutlinedTextField(
                 value = "",
                 onValueChange = {},
                 label = { Text(stringResource(R.string.word_textfield))},
