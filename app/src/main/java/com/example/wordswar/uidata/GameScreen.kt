@@ -78,7 +78,7 @@ fun GameScreen(gameViewModel: GameViewModel = viewModel()
                 Text(stringResource(R.string.submit_button),
                     fontSize = 16.sp)
             }
-            OutlinedButton(onClick = { /*TODO*/ },
+            OutlinedButton(onClick = {gameViewModel.onSkipClicked() },
                 modifier = Modifier.fillMaxWidth()) {
                 Text(stringResource(R.string.skip_button),
                     fontSize = 16.sp)
@@ -86,7 +86,14 @@ fun GameScreen(gameViewModel: GameViewModel = viewModel()
 
         }
 
-        GameScore()
+        GameScore(score = gameUIState.score)
+    }
+
+    if (gameUIState.isGameOver) {
+        FinalScoreDialog(
+            score = gameUIState.score,
+            onPlayAgain = {gameViewModel.resetGame()}
+            )
     }
 }
 
@@ -149,9 +156,9 @@ fun GameLayout(
 
 
 @Composable
-fun GameScore() {
+fun GameScore(score: Int) {
     Card() {
-        Text(stringResource(R.string.game_score),
+        Text(stringResource(R.string.game_score, score),
         style = MaterialTheme.typography.headlineMedium,
         modifier = Modifier.padding(8.dp))
     }
