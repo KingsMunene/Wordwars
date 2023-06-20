@@ -2,6 +2,7 @@ package com.example.wordswar.uidata
 
 import android.app.Activity
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,36 +28,45 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.wordswar.R
 
 @Composable
 fun GameScreen() {
+
+    val  mediumPadding = dimensionResource(R.dimen.medium_padding)
+
     Column(modifier = Modifier
         .fillMaxSize()
-        .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        .padding(mediumPadding),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
 
         Text(stringResource(R.string.game_title),
-            style = MaterialTheme.typography.titleMedium)
+            style = MaterialTheme.typography.titleLarge)
 
         GameLayout()
 
         Column(
-            modifier = Modifier.padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier = Modifier.padding(mediumPadding),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(mediumPadding)
         ) {
             Button(onClick = { /*TODO*/ },
                 modifier = Modifier.fillMaxWidth()) {
-                Text(stringResource(R.string.submit_button))
+                Text(stringResource(R.string.submit_button),
+                    fontSize = 16.sp)
             }
             OutlinedButton(onClick = { /*TODO*/ },
                 modifier = Modifier.fillMaxWidth()) {
-                Text(stringResource(R.string.skip_button))
+                Text(stringResource(R.string.skip_button),
+                    fontSize = 16.sp)
             }
 
         }
@@ -70,10 +80,11 @@ fun GameScreen() {
 @Composable
 fun GameLayout() {
 
+    val  mediumPadding = dimensionResource(R.dimen.medium_padding)
     Card() {
         Column(modifier = Modifier
-            .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            .padding(mediumPadding),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
                 modifier = Modifier
@@ -86,8 +97,10 @@ fun GameLayout() {
                 style = MaterialTheme.typography.titleMedium
             )
 
-            Text(text = "nlmeo")
-            Text(stringResource(R.string.game_instructions))
+            Text(text = "nlmeo",
+            style = MaterialTheme.typography.titleLarge)
+            Text(stringResource(R.string.game_instructions),
+                style = MaterialTheme.typography.titleSmall)
             OutlinedTextField(
                 value = "",
                 onValueChange = {},
