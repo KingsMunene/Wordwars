@@ -114,6 +114,11 @@ fun GameScore() {
     }
 }
 
+@Composable
+fun FinalScoreDialog() {
+    
+}
+
 @Preview(showBackground = true)
 @Composable
 fun GameScreenPrev() {
