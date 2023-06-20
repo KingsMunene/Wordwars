@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Words War</string>
+    <string name="game_title">Unscramble</string>
+    <string name="word_count">%s/10</string>
+    <string name="game_instructions">Unscramble the word using all the letters</string>
+    <string name="word_textfield">Enter your word</string>
+    <string name="submit_button">Submit</string>
+    <string name="skip_button">Skip</string>
+    <string name="game_score">Score: %s</string>
+</resources>
