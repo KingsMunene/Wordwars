@@ -1,5 +1,6 @@
 package com.example.wordswar.uidata
 
+import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -17,12 +19,14 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Shapes
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
@@ -115,8 +119,34 @@ fun GameScore() {
 }
 
 @Composable
-fun FinalScoreDialog() {
-    
+fun FinalScoreDialog(
+    score: Int,
+    onPlayAgain: () -> Unit
+    ) {
+    val activity = (LocalContext.current as Activity)
+
+    AlertDialog(
+        onDismissRequest = { /*TODO*/ },
+        title = { Text(stringResource(R.string.congratulations))},
+        text = { Text(stringResource(R.string.dialog_score, score))},
+        modifier = Modifier,
+        dismissButton = {
+            TextButton(
+                onClick = {
+                    activity.finish()
+                }
+            ){
+                Text(stringResource(R.string.dialog_exit))
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onPlayAgain){
+                Text(stringResource(R.string.dialog_play_again))
+            }
+        }
+
+
+        )
 }
 
 @Preview(showBackground = true)
