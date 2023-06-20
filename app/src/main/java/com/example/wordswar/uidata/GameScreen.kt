@@ -55,10 +55,9 @@ fun GameScreen() {
                 Text(stringResource(R.string.skip_button))
             }
 
-            Text(stringResource(R.string.game_score))
         }
 
-
+        GameScore()
     }
 }
 
@@ -75,9 +74,9 @@ fun GameLayout() {
             Text(
                 modifier = Modifier
                     .clip(shapes.medium)
+                    .background(colorScheme.surfaceTint)
                     .padding(horizontal = 10.dp, vertical = 4.dp)
-                    .align(alignment = Alignment.End)
-                    .background(colorScheme.surfaceTint),
+                    .align(alignment = Alignment.End),
                 text =  stringResource(R.string.word_count),
                 color = colorScheme.onPrimary,
                 style = MaterialTheme.typography.titleMedium
@@ -105,6 +104,15 @@ fun GameLayout() {
 
 }
 
+
+@Composable
+fun GameScore() {
+    Card() {
+        Text(stringResource(R.string.game_score),
+        style = MaterialTheme.typography.headlineMedium,
+        modifier = Modifier.padding(8.dp))
+    }
+}
 
 @Preview(showBackground = true)
 @Composable
