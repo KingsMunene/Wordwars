@@ -59,7 +59,13 @@ fun GameScreen(gameViewModel: GameViewModel = viewModel()
             style = MaterialTheme.typography.titleLarge)
 
         GameLayout(
-            scrambledWord = gameUIState.currentScrambledWord
+            scrambledWord = gameUIState.currentScrambledWord,
+            wordCount = gameUIState.wordCount,
+            userGuessWord = gameViewModel.userGuessedWord,
+            onValueChange = {gameViewModel.userGuessInput(it)},
+            isErrorState = gameUIState.isGuessedWrongWord,
+            onKeyboardDone = {gameViewModel.checkUserInput()}
+
         )
 
         Column(
@@ -67,7 +73,7 @@ fun GameScreen(gameViewModel: GameViewModel = viewModel()
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(mediumPadding)
         ) {
-            Button(onClick = { /*TODO*/ },
+            Button(onClick = { gameViewModel.checkUserInput() },
                 modifier = Modifier.fillMaxWidth()) {
                 Text(stringResource(R.string.submit_button),
                     fontSize = 16.sp)
@@ -88,7 +94,12 @@ fun GameScreen(gameViewModel: GameViewModel = viewModel()
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GameLayout(
-    scrambledWord: String
+    scrambledWord: String,
+    wordCount: Int,
+    userGuessWord: String,
+    onValueChange: (String) -> Unit,
+    isErrorState: Boolean,
+    onKeyboardDone: () -> Unit
 ) {
 
     val  mediumPadding = dimensionResource(R.dimen.medium_padding)
@@ -104,7 +115,7 @@ fun GameLayout(
                     .background(colorScheme.surfaceTint)
                     .padding(horizontal = 10.dp, vertical = 4.dp)
                     .align(alignment = Alignment.End),
-                text =  stringResource(R.string.word_count),
+                text =  stringResource(R.string.word_count, wordCount),
                 color = colorScheme.onPrimary,
                 style = MaterialTheme.typography.titleMedium
             )
@@ -114,18 +125,20 @@ fun GameLayout(
                 style = MaterialTheme.typography.titleLarge)
                 Text(stringResource(R.string.game_instructions),
                 style = MaterialTheme.typography.titleSmall)
+
                 OutlinedTextField(
-                value = "",
-                onValueChange = {},
-                label = { Text(stringResource(R.string.word_textfield))},
+                value = userGuessWord,
+                onValueChange = onValueChange,
+                label = {if (isErrorState) Text(stringResource(R.string.wrong_guess)) else
+                        Text(stringResource(R.string.word_textfield))},
                 singleLine = true,
                 colors = TextFieldDefaults.textFieldColors(containerColor = colorScheme.surface),
                 shape = shapes.medium,
-                isError = false,
+                isError = isErrorState,
                 keyboardOptions = KeyboardOptions.Default.copy(
                     imeAction = ImeAction.Done
                 ), keyboardActions = KeyboardActions(
-                    onDone = {}
+                    onDone = { onKeyboardDone() }
                 )
             )
 
